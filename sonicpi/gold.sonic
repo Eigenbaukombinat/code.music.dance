@@ -1,0 +1,155 @@
+use_bpm 85
+
+set :muscle, 60
+
+live_loop :base do
+  sleep 4
+end
+
+
+
+live_loop :hh do
+  sync :base
+  3.times do
+    sample :elec_blip, amp: 0.2
+    sleep 1
+  end
+  sample :elec_blip, amp: 0.2
+  sleep 0.9
+end
+
+define :bd_pt1 do
+  sync :base
+  sample :bd_boom
+  sample :bd_fat
+  sleep 0.75
+  sample :bd_fat
+  sleep 0.75
+  sample :bd_fat
+end
+
+define :sd_pt1 do
+  sync :base
+  sleep 1
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+  sleep 2
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_blup, rate: 2, amp: 0.5
+end
+
+
+define :sd_pt2 do
+  sync :base
+  sleep 1
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+  sleep 1.5
+  sample :elec_blup, rate: 2, amp: 0.5
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sleep 0.5
+  sample :elec_blup, rate: 2, amp: 0.7
+  sample :sn_dub, amp: 0.6
+end
+
+
+define :sd_pt3 do
+  sync :base
+  sleep 1.5
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+  sleep 0.5
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+  sleep 1
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+  sleep 0.5
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+  sleep 0.5
+  sample :sn_dub, amp: 0.6, start: 0.2
+  sample :elec_twang, amp: 0.5
+end
+
+live_loop :bassdrum do
+  8.times do
+    bd_pt1
+  end
+  
+end
+
+
+live_loop :snaredrum do
+  3.times do
+    sd_pt1
+  end
+  sd_pt2
+  3.times do
+    sd_pt1
+  end
+  sd_pt3
+end
+
+
+define :mel1 do
+  sync :base
+  play :f2, release: 0.2, cutoff: get[:muscle]
+  sleep 0.75
+  play :f2, release: 0.2, cutoff: get[:muscle]
+  sleep 0.75
+  play :eb2, release: 0.2, cutoff: get[:muscle]
+  sleep 1
+  play :eb2, release: 0.2, cutoff: get[:muscle]
+  #sleep 1.5
+end
+
+define :mel2 do
+  sync :base
+  play :ab2, cutoff: get[:muscle]
+  sleep 0.75
+  play :ab2, cutoff: get[:muscle]
+  sleep 0.75
+  play :bb2, cutoff: get[:muscle]
+  sleep 1
+  play :bb2, cutoff: get[:muscle]
+  sleep 0.75
+  play :c3, cutoff: get[:muscle]
+  sleep 0.5
+  play :c3, cutoff: get[:muscle]
+  #sleep 0.25
+end
+
+define :mel3 do
+  sync :base
+  sleep 0.75
+  sleep 0.75
+  play :bb2, cutoff: get[:muscle]
+  sleep 1
+  play :bb2, cutoff: get[:muscle]
+  sleep 0.25
+  play :c3, cutoff: get[:muscle]
+  sleep 0.25
+  play :c3, cutoff: get[:muscle]
+  sleep 0.25
+  play :c3, cutoff: get[:muscle]
+  sleep 0.25
+  play :c3, cutoff: get[:muscle]
+  sleep 0.25
+  play :c3, cutoff: get[:muscle]
+  #sleep 0.25
+end
+
+live_loop :Bassboost do
+  use_synth :tb303
+  use_synth_defaults attack: 0.2, amp: 0.15, wave: 2, release: 0.2
+  3.times do
+    mel1
+    mel2
+  end
+  mel1
+  mel3
+end
+
+
+
