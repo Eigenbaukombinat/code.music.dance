@@ -1,0 +1,64 @@
+use_bpm 165
+set :cut, 100
+set :cut2, 100
+set :res, 0.5
+
+live_loop :get_osc1 do
+  use_real_time
+  b = sync "/osc/imu/1/x"
+  c = b[0].abs
+  #if c > 120
+  #  c = 120
+  #end
+  
+  set :cut, (c/360) * 130
+end
+
+
+live_loop :get_osc2 do
+  use_real_time
+  b = sync "/osc/imu/2/x"
+  c = b[0].abs
+  #if c > 120
+  #  c = 120
+  #end
+  
+  set :cut2, (c/360) * 130
+end
+
+
+
+
+live_loop :base do
+  sleep 6
+  with_fx :slicer do
+    sample :ambi_dark_woosh, amp: 1
+  end
+end
+
+
+live_loop :basedrum do
+  sample :bd_haus
+  sleep 1
+end
+
+live_loop :sd do
+  sample :sn_dub
+  sleep 2
+end
+
+live_loop :hh do
+  sample :elec_cymbal, amp: 0.1
+  sleep 1
+end
+
+
+live_loop :foo do
+  use_synth :tb303
+  play :d2, sustain: 0.7, attack: 0.3, amp: 0.2, release: 0.5, cutoff: get[:cut], res: get[:res]
+  sleep 0.5
+  play :f3, sustain: 0.7, release: 0.5, amp: 0.2, cutoff: get[:cut2], res: get[:res]
+  sleep 0.5
+  
+end
+
