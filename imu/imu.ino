@@ -21,11 +21,11 @@
 Adafruit_BNO055 bno = Adafruit_BNO055(55);
 
 
-char ssid[] = "Eigenbaukombinat";          // your network SSID (name)
-char pass[] = "Banane3000";                    // your network password
+char ssid[] = "";          // your network SSID (name)
+char pass[] = "";                    // your network password
 
 WiFiUDP Udp;                                // A UDP instance to let us send and receive packets over UDP
-const IPAddress outIp(192,168,21,145);        // remote IP of your computer
+const IPAddress outIp(192,168,0,80);        // remote IP of your computer
 const unsigned int outPort = 4559;          // remote port to receive OSC
 const unsigned int localPort = 8888;        // local port to listen for OSC packets (actually not used for sending)
 
@@ -86,14 +86,14 @@ void loop() {
 
   /* The processing sketch expects data as roll, pitch, heading */
   
-    OSCMessage msgx("/imu/2/x");
+    OSCMessage msgx("/imu/1/x");
     msgx.add((float)event.orientation.x);
     Udp.beginPacket(outIp, outPort);
     msgx.send(Udp);
     Udp.endPacket();
     msgx.empty();
     
-    OSCMessage msgy("/imu/2/y");
+    /*OSCMessage msgy("/imu/2/y");
     msgy.add((float)event.orientation.y);
     Udp.beginPacket(outIp, outPort);
     msgy.send(Udp);
@@ -106,7 +106,7 @@ void loop() {
     msgz.send(Udp);
     Udp.endPacket();
     msgz.empty();
-
+*/
 
 
   delay(BNO055_SAMPLERATE_DELAY_MS);
