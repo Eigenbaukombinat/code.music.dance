@@ -12,8 +12,8 @@
 #include <WiFiUdp.h>
 #include <OSCMessage.h>
 
-char ssid[] = "Eigenbaukombinat";          // your network SSID (name)
-char pass[] = "Banane3000";                    // your network password
+char ssid[] = "";          // your network SSID (name)
+char pass[] = "";                    // your network password
 
 WiFiUDP Udp;                                // A UDP instance to let us send and receive packets over UDP
 const IPAddress outIp(192,168,21,145);        // remote IP of your computer
